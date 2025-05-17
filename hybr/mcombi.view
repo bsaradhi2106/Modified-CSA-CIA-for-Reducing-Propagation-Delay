@@ -1,0 +1,146 @@
+create_library_set -name libset_slow\
+   -timing\
+    [list ./lib/45lib/slow.lib]
+create_library_set -name libset_fast\
+   -timing\
+    [list ./lib/45lib/fast.lib]
+create_rc_corner -name corner_worst_CMAX\
+   -preRoute_res 1\
+   -postRoute_res {1 1 1}\
+   -preRoute_cap 1.2\
+   -postRoute_cap {1.2 1.2 1.2}\
+   -postRoute_xcap {1.2 1.2 1.2}\
+   -preRoute_clkres 0\
+   -preRoute_clkcap 0
+create_rc_corner -name corner_worst_RCMAX\
+   -preRoute_res 1.2\
+   -postRoute_res {1.2 1.2 1.2}\
+   -preRoute_cap 1.2\
+   -postRoute_cap {1.2 1.2 1.2}\
+   -postRoute_xcap {1.2 1.2 1.2}\
+   -preRoute_clkres 0\
+   -preRoute_clkcap 0
+create_rc_corner -name corner_worst_RMAX\
+   -preRoute_res 1.2\
+   -postRoute_res {1.2 1.2 1.2}\
+   -preRoute_cap 1\
+   -postRoute_cap 1\
+   -postRoute_xcap 1\
+   -preRoute_clkres 0\
+   -preRoute_clkcap 0
+create_rc_corner -name corner_worst_CMIN\
+   -preRoute_res 1\
+   -postRoute_res {1 1 1}\
+   -preRoute_cap 0.8\
+   -postRoute_cap {0.8 0.8 0.8}\
+   -postRoute_xcap {0.8 0.8 0.8}\
+   -preRoute_clkres 0\
+   -preRoute_clkcap 0
+create_rc_corner -name corner_worst_RCMIN\
+   -preRoute_res 0.8\
+   -postRoute_res {0.8 0.8 0.8}\
+   -preRoute_cap 0.8\
+   -postRoute_cap {0.8 0.8 0.8}\
+   -postRoute_xcap {0.8 0.8 0.8}\
+   -preRoute_clkres 0\
+   -preRoute_clkcap 0
+create_rc_corner -name corner_worst_RMIN\
+   -preRoute_res 0.8\
+   -postRoute_res {0.8 0.8 0.8}\
+   -preRoute_cap 1\
+   -postRoute_cap 1\
+   -postRoute_xcap 1\
+   -preRoute_clkres 0\
+   -preRoute_clkcap 0
+create_delay_corner -name delay_corner_slow_CMAX\
+   -rc_corner corner_worst_CMAX\
+   -early_library_set libset_slow\
+   -late_library_set libset_slow
+create_delay_corner -name delay_corner_slow_RCMAX\
+   -rc_corner corner_worst_RCMAX\
+   -early_library_set libset_slow\
+   -late_library_set libset_slow
+create_delay_corner -name delay_corner_slow_RMAX\
+   -rc_corner corner_worst_RMAX\
+   -early_library_set libset_slow\
+   -late_library_set libset_slow
+create_delay_corner -name delay_corner_fast_CMAX\
+   -rc_corner corner_worst_CMAX\
+   -early_library_set libset_fast\
+   -late_library_set libset_fast
+create_delay_corner -name delay_corner_fast_RCMAX\
+   -rc_corner corner_worst_RCMAX\
+   -early_library_set libset_fast\
+   -late_library_set libset_fast
+create_delay_corner -name delay_corner_fast_RMAX\
+   -rc_corner corner_worst_RMAX\
+   -early_library_set libset_fast\
+   -late_library_set libset_fast
+create_delay_corner -name delay_corner_slow_CMIN\
+   -rc_corner corner_worst_CMIN\
+   -early_library_set libset_slow\
+   -late_library_set libset_slow
+create_delay_corner -name delay_corner_slow_RCMIN\
+   -rc_corner corner_worst_RCMIN\
+   -early_library_set libset_slow\
+   -late_library_set libset_slow
+create_delay_corner -name delay_corner_slow_RMIN\
+   -rc_corner corner_worst_RMIN\
+   -early_library_set libset_slow\
+   -late_library_set libset_slow
+create_delay_corner -name delay_corner_fast_CMIN\
+   -rc_corner corner_worst_CMIN\
+   -early_library_set libset_fast\
+   -late_library_set libset_fast
+create_delay_corner -name delay_corner_fast_RCMIN\
+   -rc_corner corner_worst_RCMIN\
+   -early_library_set libset_fast\
+   -late_library_set libset_fast
+create_delay_corner -name delay_corner_fast_RMIN\
+   -rc_corner corner_worst_RMIN\
+   -early_library_set libset_fast\
+   -late_library_set libset_fast
+create_constraint_mode -name functional_mode -sdc_files [list ./hybr.sdc]
+#create_constraint_mode -name scan_mode -sdc_files [list ../design/dtmf_recvr_core.scan.sdc]
+#create_constraint_mode -name test_mode -sdc_files [list ../design/dtmf_recvr_core.test.sdc]
+
+create_analysis_view -name func_slow_CMAX -constraint_mode functional_mode -delay_corner delay_corner_slow_CMAX
+create_analysis_view -name func_fast_CMAX -constraint_mode functional_mode -delay_corner delay_corner_fast_CMAX
+create_analysis_view -name func_slow_RCMAX -constraint_mode functional_mode -delay_corner delay_corner_slow_RCMAX
+create_analysis_view -name func_fast_RCMAX -constraint_mode functional_mode -delay_corner delay_corner_fast_RCMAX
+create_analysis_view -name func_slow_RMAX -constraint_mode functional_mode -delay_corner delay_corner_slow_RMAX
+create_analysis_view -name func_fast_RMAX -constraint_mode functional_mode -delay_corner delay_corner_fast_RMAX
+create_analysis_view -name func_slow_CMIN -constraint_mode functional_mode -delay_corner delay_corner_slow_CMIN
+create_analysis_view -name func_fast_CMIN -constraint_mode functional_mode -delay_corner delay_corner_fast_CMIN
+create_analysis_view -name func_slow_RCMIN -constraint_mode functional_mode -delay_corner delay_corner_slow_RCMIN
+create_analysis_view -name func_fast_RCMIN -constraint_mode functional_mode -delay_corner delay_corner_fast_RCMIN
+create_analysis_view -name func_slow_RMIN -constraint_mode functional_mode -delay_corner delay_corner_slow_RMIN
+create_analysis_view -name func_fast_RMIN -constraint_mode functional_mode -delay_corner delay_corner_fast_RMIN
+
+#create_analysis_view -name scan_slow_CMAX -constraint_mode scan_mode -delay_corner delay_corner_slow_CMAX
+#create_analysis_view -name scan_fast_CMAX -constraint_mode scan_mode -delay_corner delay_corner_fast_CMAX
+#create_analysis_view -name scan_slow_RCMAX -constraint_mode scan_mode -delay_corner delay_corner_slow_RCMAX
+#create_analysis_view -name scan_fast_RCMAX -constraint_mode scan_mode -delay_corner delay_corner_fast_RCMAX
+#create_analysis_view -name scan_slow_RMAX -constraint_mode scan_mode -delay_corner delay_corner_slow_RMAX
+#create_analysis_view -name scan_fast_RMAX -constraint_mode scan_mode -delay_corner delay_corner_fast_RMAX
+#create_analysis_view -name scan_slow_CMIN -constraint_mode scan_mode -delay_corner delay_corner_slow_CMIN
+#create_analysis_view -name scan_fast_CMIN -constraint_mode scan_mode -delay_corner delay_corner_fast_CMIN
+#create_analysis_view -name scan_slow_RCMIN -constraint_mode scan_mode -delay_corner delay_corner_slow_RCMIN
+#create_analysis_view -name scan_fast_RCMIN -constraint_mode scan_mode -delay_corner delay_corner_fast_RCMIN
+#create_analysis_view -name scan_slow_RMIN -constraint_mode scan_mode -delay_corner delay_corner_slow_RMIN
+#create_analysis_view -name scan_fast_RMIN -constraint_mode scan_mode -delay_corner delay_corner_fast_RMIN
+
+#create_analysis_view -name test_slow_CMAX -constraint_mode test_mode -delay_corner delay_corner_slow_CMAX
+#create_analysis_view -name test_fast_CMAX -constraint_mode test_mode -delay_corner delay_corner_fast_CMAX
+#create_analysis_view -name test_slow_RCMAX -constraint_mode test_mode -delay_corner delay_corner_slow_RCMAX
+#create_analysis_view -name test_fast_RCMAX -constraint_mode test_mode -delay_corner delay_corner_fast_RCMAX
+#create_analysis_view -name test_slow_RMAX -constraint_mode test_mode -delay_corner delay_corner_slow_RMAX
+#create_analysis_view -name test_fast_RMAX -constraint_mode test_mode -delay_corner delay_corner_fast_RMAX
+#create_analysis_view -name test_slow_CMIN -constraint_mode test_mode -delay_corner delay_corner_slow_CMIN
+#create_analysis_view -name test_fast_CMIN -constraint_mode test_mode -delay_corner delay_corner_fast_CMIN
+#create_analysis_view -name test_slow_RCMIN -constraint_mode test_mode -delay_corner delay_corner_slow_RCMIN
+#create_analysis_view -name test_fast_RCMIN -constraint_mode test_mode -delay_corner delay_corner_fast_RCMIN
+#create_analysis_view -name test_slow_RMIN -constraint_mode test_mode -delay_corner delay_corner_slow_RMIN
+#create_analysis_view -name test_fast_RMIN -constraint_mode test_mode -delay_corner delay_corner_fast_RMIN
+
+set_analysis_view -setup [list func_slow_CMAX func_fast_CMAX func_slow_RCMAX func_fast_RCMAX func_slow_RMAX func_fast_RMAX func_slow_CMIN func_fast_CMIN func_slow_RCMIN func_fast_RCMIN func_slow_RMIN func_fast_RMIN scan_slow_CMAX scan_fast_CMAX scan_slow_RCMAX scan_fast_RCMAX scan_slow_RMAX scan_fast_RMAX scan_slow_CMIN scan_fast_CMIN scan_slow_RCMIN scan_fast_RCMIN scan_slow_RMIN scan_fast_RMIN test_slow_CMAX test_fast_CMAX test_slow_RCMAX test_fast_RCMAX test_slow_RMAX test_fast_RMAX test_slow_CMIN test_fast_CMIN test_slow_RCMIN test_fast_RCMIN test_slow_RMIN test_fast_RMIN] -hold [list func_slow_CMAX func_fast_CMAX func_slow_RCMAX func_fast_RCMAX func_slow_RMAX func_fast_RMAX func_slow_CMIN func_fast_CMIN func_slow_RCMIN func_fast_RCMIN func_slow_RMIN func_fast_RMIN scan_slow_CMAX scan_fast_CMAX scan_slow_RCMAX scan_fast_RCMAX scan_slow_RMAX scan_fast_RMAX scan_slow_CMIN scan_fast_CMIN scan_slow_RCMIN scan_fast_RCMIN scan_slow_RMIN scan_fast_RMIN test_slow_CMAX test_fast_CMAX test_slow_RCMAX test_fast_RCMAX test_slow_RMAX test_fast_RMAX test_slow_CMIN test_fast_CMIN test_slow_RCMIN test_fast_RCMIN test_slow_RMIN test_fast_RMIN]
